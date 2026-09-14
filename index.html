@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bright Teeth — Premium Dental Clinic</title>
+<meta name="description" content="The Bright Teeth — premium cosmetic dentistry, implants, orthodontics and family dental care.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- AOS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: '#0F172A',
+        navydeep: '#0B1220',
+        cyan: '#0EA5E9',
+        teal: '#14B8A6',
+        pearl: '#F8FAFC',
+        gold: '#F59E0B',
+        mint: '#6EE7B7'
+      },
+      fontFamily: {
+        en: ['Poppins','sans-serif'],
+        ar: ['Tajawal','sans-serif']
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  :root{
+    --navy:#0F172A;
+    --navydeep:#0B1220;
+    --cyan:#0EA5E9;
+    --teal:#14B8A6;
+    --pearl:#F8FAFC;
+    --gold:#F59E0B;
+    --mint:#6EE7B7;
+  }
+
+  *{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--pearl);
+    color: var(--navy);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+  }
+
+  html[dir="rtl"] body{ font-family:'Tajawal', sans-serif; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+
+  /* ---------- Utility visual language ---------- */
+  .glass{
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.35);
+  }
+  .glass-dark{
+    background: rgba(15,23,42,0.55);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .grad-brand{ background: linear-gradient(120deg, var(--navy) 0%, #0C4A6E 45%, var(--teal) 100%); }
+  .grad-text{
+    background: linear-gradient(90deg, var(--cyan), var(--teal));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .glow-cyan{ box-shadow: 0 8px 40px -8px rgba(14,165,233,0.45); }
+  .glow-gold{ box-shadow: 0 8px 30px -6px rgba(245,158,11,0.55); }
+
+  .btn-primary{
+    background: linear-gradient(90deg, var(--cyan), var(--teal));
+    color:#fff; font-weight:600; border-radius: 999px;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .btn-primary:hover{ transform: translateY(-3px); box-shadow: 0 14px 30px -10px rgba(14,165,233,.6); }
+
+  .btn-ghost{
+    border: 1.5px solid rgba(255,255,255,.6);
+    color:#fff; border-radius:999px; font-weight:600;
+    transition: background .25s ease, transform .25s ease;
+  }
+  .btn-ghost:hover{ background: rgba(255,255,255,.12); transform: translateY(-3px); }
+
+  .btn-gold{
+    background: linear-gradient(90deg,#F59E0B,#FBBF24);
+    color:#1a1300; font-weight:700; border-radius:999px;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .btn-gold:hover{ transform: translateY(-3px); box-shadow: 0 14px 30px -10px rgba(245,158,11,.6); }
+
+  /* ---------- Floating particles ---------- */
+  .particle-field{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
+  .particle{
+    position:absolute; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(14,165,233,.15));
+    opacity:.55; filter: blur(0.3px);
+  }
+  .orb{
+    position:absolute; border-radius:50%;
+    background: radial-gradient(circle, rgba(20,184,166,.35), transparent 70%);
+    filter: blur(6px);
+  }
+  .icon-float{ position:absolute; color: rgba(255,255,255,.35); font-size: 1.4rem; }
+
+  @keyframes drift{
+    0%   { transform: translate(0,0) rotate(0deg); }
+    50%  { transform: translate(14px,-22px) rotate(8deg); }
+    100% { transform: translate(0,0) rotate(0deg); }
+  }
+  .drift{ animation: drift 9s ease-in-out infinite; }
+
+  /* ---------- Navbar ---------- */
+  #navbar{ transition: background .35s ease, box-shadow .35s ease, padding .3s ease; }
+  #navbar.scrolled{ box-shadow: 0 10px 30px -12px rgba(15,23,42,.25); }
+
+  .nav-link{ position:relative; font-weight:500; color: var(--navy); }
+  .nav-link::after{
+    content:''; position:absolute; left:0; right:0; bottom:-6px; height:2px;
+    background: linear-gradient(90deg,var(--cyan),var(--teal));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .25s ease;
+  }
+  html[dir="rtl"] .nav-link::after{ transform-origin: right; }
+  .nav-link:hover::after{ transform: scaleX(1); }
+
+  /* language toggle */
+  .lang-switch{
+    position:relative; width:118px; height:38px; border-radius:999px;
+    background: rgba(15,23,42,0.08); display:flex; align-items:center; padding:3px; cursor:pointer;
+    border:1px solid rgba(15,23,42,.12);
+  }
+  .lang-switch .pill{
+    position:absolute; top:3px; bottom:3px; width:56px; border-radius:999px;
+    background: linear-gradient(90deg,var(--cyan),var(--teal));
+    transition: transform .3s ease;
+    left:3px;
+  }
+  html[dir="ltr"] .lang-switch[data-current="ar"] .pill{ transform: translateX(59px); }
+  html[dir="rtl"] .lang-switch[data-current="en"] .pill{ transform: translateX(-59px); }
+  .lang-switch span{ position:relative; z-index:2; flex:1; text-align:center; font-size:.72rem; font-weight:700; color: var(--navy); }
+  .lang-switch span.active-lang{ color:#fff; }
+
+  /* ---------- Cards ---------- */
+  .service-card{
+    background:#fff; border-radius: 22px; border:1px solid rgba(15,23,42,.06);
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  }
+  .service-card:hover{ transform: translateY(-8px); box-shadow: 0 22px 45px -18px rgba(15,23,42,.25); border-color: rgba(14,165,233,.35); }
+
+  .price-tag{
+    background: rgba(20,184,166,.1); color:#0F766E; border-radius:999px; font-weight:700; font-size:.8rem;
+  }
+
+  /* Doctor card */
+  .doctor-card{ border-radius: 26px; overflow:hidden; position:relative; }
+  .doctor-card .overlay{
+    position:absolute; inset:auto 0 0 0; padding:1.25rem;
+    background: linear-gradient(to top, rgba(11,18,32,.92), rgba(11,18,32,.15) 70%, transparent);
+    color:#fff;
+  }
+
+  /* Before / after slider */
+  .ba-wrap{ position:relative; border-radius:22px; overflow:hidden; aspect-ratio: 4/3; touch-action:none; user-select:none; }
+  .ba-wrap img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .ba-after{ clip-path: inset(0 0 0 50%); }
+  html[dir="rtl"] .ba-after{ clip-path: inset(0 50% 0 0); }
+  .ba-handle{
+    position:absolute; top:0; bottom:0; left:50%; width:3px; background:#fff;
+    box-shadow: 0 0 0 4px rgba(255,255,255,.25);
+    transform: translateX(-50%);
+  }
+  .ba-knob{
+    position:absolute; top:50%; left:50%; width:44px; height:44px; border-radius:999px;
+    background:#fff; transform: translate(-50%,-50%); display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 8px 20px rgba(0,0,0,.25); cursor: ew-resize; color: var(--navy);
+  }
+  .ba-label{ position:absolute; top:12px; padding:4px 12px; border-radius:999px; font-size:.72rem; font-weight:700; color:#fff; background: rgba(15,23,42,.55); backdrop-filter: blur(6px); }
+
+  /* accordion */
+  .faq-item{ border-bottom:1px solid rgba(15,23,42,.1); }
+  .faq-q{ cursor:pointer; }
+  .faq-a{ max-height:0; overflow:hidden; transition: max-height .35s ease, padding .35s ease; }
+  .faq-item.open .faq-a{ max-height: 260px; }
+  .faq-item.open .chev{ transform: rotate(180deg); }
+  .chev{ transition: transform .3s ease; }
+
+  /* testimonial carousel */
+  .test-track{ display:flex; transition: transform .5s ease; }
+  .test-slide{ flex: 0 0 100%; }
+
+  /* form */
+  .field{
+    border:1.5px solid rgba(15,23,42,.14); border-radius:14px; padding:.85rem 1rem; width:100%;
+    background:#fff; transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field:focus{ outline:none; border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(14,165,233,.15); }
+  .field.invalid{ border-color:#EF4444; box-shadow: 0 0 0 4px rgba(239,68,68,.12); }
+  .step-dot{ width:34px; height:34px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; border:2px solid rgba(15,23,42,.15); color: rgba(15,23,42,.4); }
+  .step-dot.active{ background: linear-gradient(90deg,var(--cyan),var(--teal)); color:#fff; border-color: transparent; }
+  .step-dot.done{ background: var(--teal); color:#fff; border-color: transparent; }
+  .step-line{ flex:1; height:2px; background: rgba(15,23,42,.12); }
+  .step-line.done{ background: var(--teal); }
+
+  .time-slot{
+    border:1.5px solid rgba(15,23,42,.14); border-radius:12px; padding:.6rem .4rem; text-align:center; cursor:pointer; font-size:.85rem; font-weight:600;
+    transition: all .2s ease;
+  }
+  .time-slot.selected{ background: linear-gradient(90deg,var(--cyan),var(--teal)); color:#fff; border-color: transparent; }
+  .time-slot.taken{ opacity:.35; cursor:not-allowed; text-decoration: line-through; }
+
+  /* modal */
+  .modal-backdrop{ position:fixed; inset:0; background: rgba(11,18,32,.7); backdrop-filter: blur(6px); z-index:100; display:none; align-items:center; justify-content:center; padding:1rem; }
+  .modal-backdrop.show{ display:flex; }
+  .modal-box{ background:#fff; border-radius: 24px; max-width: 640px; width:100%; max-height:90vh; overflow-y:auto; position:relative; }
+
+  /* scrollbar niceties */
+  .modal-box::-webkit-scrollbar{ width:8px; }
+  .modal-box::-webkit-scrollbar-thumb{ background: rgba(15,23,42,.15); border-radius: 999px; }
+
+  /* calculator */
+  .calc-option{ border:1.5px solid rgba(15,23,42,.14); border-radius:14px; padding:.9rem; cursor:pointer; transition: all .2s ease; }
+  .calc-option.selected{ border-color: var(--teal); background: rgba(20,184,166,.08); }
+
+  /* stat badge */
+  .stat-badge{ border-radius:20px; }
+
+  /* whatsapp / emergency pulse */
+  @keyframes pulse-ring{
+    0%{ box-shadow: 0 0 0 0 rgba(239,68,68,.55); }
+    70%{ box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+  }
+  .pulse-red{ animation: pulse-ring 2.2s infinite; }
+
+  /* language content visibility handled purely by textContent swap, no [hidden] needed */
+
+  input::placeholder, textarea::placeholder{ color: rgba(15,23,42,.4); }
+
+  .marquee-track{ display:flex; gap:2rem; animation: marquee 22s linear infinite; white-space:nowrap; }
+  @keyframes marquee{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
+  html[dir="rtl"] .marquee-track{ animation-direction: reverse; }
+
+  .focus-ring:focus-visible{ outline: 3px solid var(--cyan); outline-offset:2px; }
+</style>
+</head>
+
+<body>
+
+<!-- ============ FLOATING BOOKING BUTTON (mobile) ============ -->
+<button onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})"
+  class="fixed z-40 bottom-5 lg:hidden inset-inline-start-5 rtl:right-5 ltr:left-5 w-14 h-14 rounded-full btn-primary glow-cyan flex items-center justify-center text-xl"
+  aria-label="Book appointment">
+  <i class="fa-solid fa-calendar-check"></i>
+</button>
+
+<!-- ============ TOP NOTIFICATION BAR ============ -->
+<div class="grad-brand text-white text-[13px] relative z-30">
+  <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex flex-wrap items-center gap-4">
+      <a href="tel:+201000000000" class="flex items-center gap-2 hover:text-cyan-300 transition">
+        <i class="fa-solid fa-phone-volume text-red-400"></i>
+        <span data-i18n="top_emergency">24/7 Emergency: +20 100 000 0000</span>
+      </a>
+      <span class="hidden md:flex items-center gap-2">
+        <i class="fa-regular fa-clock text-teal-300"></i>
+        <span data-i18n="top_hours">Sat–Thu: 9:00 AM – 10:00 PM</span>
+      </span>
+      <span class="hidden lg:flex items-center gap-2">
+        <i class="fa-solid fa-location-dot text-teal-300"></i>
+        <span data-i18n="top_address">12 Nile Corniche St, Tanta, Egypt</span>
+      </span>
+    </div>
+    <div class="flex items-center gap-2 bg-gold/20 border border-gold/40 rounded-full px-3 py-1">
+      <i class="fa-solid fa-gift text-gold"></i>
+      <span data-i18n="top_offer" class="font-medium">50% off Teeth Whitening this month</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<header id="navbar" class="sticky top-0 z-50 glass">
+  <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#home" class="flex items-center gap-2 shrink-0">
+      <svg width="42" height="42" viewBox="0 0 64 64" fill="none">
+        <defs>
+          <linearGradient id="toothGrad" x1="0" y1="0" x2="64" y2="64">
+            <stop offset="0" stop-color="#0EA5E9"/>
+            <stop offset="1" stop-color="#14B8A6"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 6C20 6 12 13 12 24c0 9 3 12 4 20 1 7 3 14 8 14 4 0 4-9 5-15 1-4 2-6 3-6s2 2 3 6c1 6 1 15 5 15 5 0 7-7 8-14 1-8 4-11 4-20 0-11-8-18-20-18z" fill="url(#toothGrad)"/>
+        <circle cx="44" cy="14" r="3" fill="#F59E0B"/>
+        <circle cx="50" cy="20" r="1.6" fill="#F59E0B"/>
+      </svg>
+      <span class="font-bold text-lg text-navy leading-tight">The Bright<br class="hidden sm:block"><span class="grad-text"> Teeth</span></span>
+    </a>
+
+    <ul class="hidden lg:flex items-center gap-7 text-[15px]">
+      <li><a href="#home" class="nav-link" data-i18n="nav_home">Home</a></li>
+      <li><a href="#about" class="nav-link" data-i18n="nav_about">About</a></li>
+      <li><a href="#services" class="nav-link" data-i18n="nav_services">Services</a></li>
+      <li><a href="#doctors" class="nav-link" data-i18n="nav_doctors">Doctors</a></li>
+      <li><a href="#gallery" class="nav-link" data-i18n="nav_gallery">Gallery</a></li>
+      <li><a href="#booking" class="nav-link" data-i18n="nav_booking">Booking</a></li>
+      <li><a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a></li>
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <div class="lang-switch" id="langSwitch" data-current="en" role="button" tabindex="0" aria-label="Toggle language">
+        <div class="pill"></div>
+        <span data-lang-label="ar">العربية</span>
+        <span data-lang-label="en" class="active-lang">English</span>
+      </div>
+      <a href="#booking" class="btn-primary hidden md:inline-block px-5 py-2.5 text-sm" data-i18n="nav_book_now">Book Now</a>
+      <button id="menuBtn" class="lg:hidden w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- mobile menu -->
+  <div id="mobileMenu" class="lg:hidden hidden glass border-t border-white/40">
+    <ul class="flex flex-col px-4 py-3 gap-3 text-[15px]">
+      <li><a href="#home" class="nav-link" data-i18n="nav_home">Home</a></li>
+      <li><a href="#about" class="nav-link" data-i18n="nav_about">About</a></li>
+      <li><a href="#services" class="nav-link" data-i18n="nav_services">Services</a></li>
+      <li><a href="#doctors" class="nav-link" data-i18n="nav_doctors">Doctors</a></li>
+      <li><a href="#gallery" class="nav-link" data-i18n="nav_gallery">Gallery</a></li>
+      <li><a href="#booking" class="nav-link" data-i18n="nav_booking">Booking</a></li>
+      <li><a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a></li>
+      <li><a href="#booking" class="btn-primary text-center py-2.5" data-i18n="nav_book_now">Book Now</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="home" class="relative grad-brand text-white overflow-hidden pt-16 pb-28 lg:pt-20 lg:pb-36">
+  <div class="particle-field" id="particleField"></div>
+
+  <div class="max-w-7xl mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+    <div data-aos="fade-up">
+      <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-6 text-sm">
+        <i class="fa-solid fa-star text-gold"></i>
+        <span data-i18n="hero_badge">Egypt's top-rated dental clinic, 2026</span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+        <span data-i18n="hero_title_1">Confidence starts</span><br>
+        <span class="grad-text" data-i18n="hero_title_2">with your smile.</span>
+      </h1>
+      <p class="text-white/80 text-lg max-w-lg mb-8" data-i18n="hero_sub">Precision dentistry, warm care, and a design-forward clinic — everything your smile deserves, in one visit.</p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#booking" class="btn-primary px-7 py-3.5 glow-cyan" data-i18n="hero_cta_1">Book Appointment</a>
+        <a href="#services" class="btn-ghost px-7 py-3.5" data-i18n="hero_cta_2">Explore Services</a>
+      </div>
+
+      <div class="flex flex-wrap gap-6 mt-10">
+        <div>
+          <div class="text-3xl font-extrabold grad-text">+15,000</div>
+          <div class="text-white/70 text-sm" data-i18n="hero_stat_1">Happy smiles</div>
+        </div>
+        <div>
+          <div class="text-3xl font-extrabold grad-text">99.8%</div>
+          <div class="text-white/70 text-sm" data-i18n="hero_stat_2">Success rate</div>
+        </div>
+        <div>
+          <div class="text-3xl font-extrabold grad-text">18</div>
+          <div class="text-white/70 text-sm" data-i18n="hero_stat_3">Years of care</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative" data-aos="fade-left">
+      <div class="relative rounded-[32px] overflow-hidden glow-cyan">
+        <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1200&auto=format&fit=crop"
+             alt="Smiling patient at The Bright Teeth clinic" class="w-full h-[420px] lg:h-[520px] object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-navydeep/50 to-transparent"></div>
+      </div>
+
+      <div class="absolute -top-6 -left-6 glass rounded-2xl px-4 py-3 shadow-xl drift hidden sm:flex items-center gap-3" style="animation-delay:.4s">
+        <div class="w-10 h-10 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-600"><i class="fa-solid fa-tooth"></i></div>
+        <div>
+          <div class="text-navy font-bold text-sm">99.8%</div>
+          <div class="text-navy/60 text-xs" data-i18n="hero_float_1">Success rate</div>
+        </div>
+      </div>
+
+      <div class="absolute -bottom-8 -right-4 glass rounded-2xl px-4 py-3 shadow-xl drift hidden sm:flex items-center gap-3" style="animation-delay:1.2s">
+        <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-600"><i class="fa-solid fa-user-doctor"></i></div>
+        <div>
+          <div class="text-navy font-bold text-sm" data-i18n="hero_float_2_num">12 Specialists</div>
+          <div class="text-navy/60 text-xs" data-i18n="hero_float_2">On staff daily</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROMO STRIP ============ -->
+<section class="bg-navydeep py-3 overflow-hidden">
+  <div class="marquee-track text-white/90 text-sm font-medium">
+    <span data-i18n="marquee_1">✦ Free 3D Dental Scan on your first visit</span>
+    <span data-i18n="marquee_2">✦ 50% off Teeth Whitening this month</span>
+    <span data-i18n="marquee_3">✦ 0% interest installment plans on implants</span>
+    <span data-i18n="marquee_4">✦ Kids under 10 get a free check-up in Ramadan</span>
+    <span data-i18n="marquee_1">✦ Free 3D Dental Scan on your first visit</span>
+    <span data-i18n="marquee_2">✦ 50% off Teeth Whitening this month</span>
+    <span data-i18n="marquee_3">✦ 0% interest installment plans on implants</span>
+    <span data-i18n="marquee_4">✦ Kids under 10 get a free check-up in Ramadan</span>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="max-w-7xl mx-auto px-4 py-24 grid lg:grid-cols-2 gap-14 items-center">
+  <div class="relative" data-aos="fade-right">
+    <div class="grid grid-cols-2 gap-4">
+      <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=800&auto=format&fit=crop" class="rounded-3xl object-cover h-64 w-full" alt="Modern clinic interior">
+      <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=800&auto=format&fit=crop" class="rounded-3xl object-cover h-64 w-full mt-8" alt="Dental equipment">
+    </div>
+    <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 glass-dark text-white rounded-2xl px-6 py-4 flex items-center gap-4 shadow-xl w-[85%]">
+      <i class="fa-solid fa-award text-gold text-2xl"></i>
+      <div>
+        <div class="font-bold text-sm" data-i18n="about_badge_title">ISO 9001 Certified Clinic</div>
+        <div class="text-white/70 text-xs" data-i18n="about_badge_sub">Sterilization &amp; safety standards</div>
+      </div>
+    </div>
+  </div>
+
+  <div data-aos="fade-left">
+    <span class="text-teal-600 font-semibold" data-i18n="about_eyebrow">About The Bright Teeth</span>
+    <h2 class="text-3xl lg:text-4xl font-extrabold mt-2 mb-5 leading-snug" data-i18n="about_title">Where dentistry meets design, and expertise meets warmth.</h2>
+    <p class="text-navy/70 mb-6 leading-relaxed" data-i18n="about_p1">Founded in 2008, The Bright Teeth has grown into one of the region's most trusted dental destinations — combining board-certified specialists with the latest digital diagnostics, all inside a clinic built to feel calm, not clinical.</p>
+    <div class="grid sm:grid-cols-2 gap-4 mb-8">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-shield-heart"></i></div>
+        <div>
+          <div class="font-semibold text-sm" data-i18n="about_f1_t">Painless technology</div>
+          <div class="text-navy/60 text-xs" data-i18n="about_f1_d">Laser &amp; digital anesthesia options</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-user-doctor"></i></div>
+        <div>
+          <div class="font-semibold text-sm" data-i18n="about_f2_t">Specialist-led care</div>
+          <div class="text-navy/60 text-xs" data-i18n="about_f2_d">12 specialists across every field</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gold/10 text-gold flex items-center justify-center shrink-0"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        <div>
+          <div class="font-semibold text-sm" data-i18n="about_f3_t">Flexible payment</div>
+          <div class="text-navy/60 text-xs" data-i18n="about_f3_d">Installment plans on major treatments</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 flex items-center justify-center shrink-0"><i class="fa-solid fa-cube"></i></div>
+        <div>
+          <div class="font-semibold text-sm" data-i18n="about_f4_t">3D digital scanning</div>
+          <div class="text-navy/60 text-xs" data-i18n="about_f4_d">Precise, same-day treatment planning</div>
+        </div>
+      </div>
+    </div>
+    <a href="#booking" class="btn-primary inline-block px-6 py-3" data-i18n="about_cta">Book a Consultation</a>
+  </div>
+</section>
+
+<!-- ============ PROMO BANNER 1 ============ -->
+<section class="max-w-7xl mx-auto px-4 pb-6">
+  <div class="grad-brand rounded-[28px] p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden" data-aos="zoom-in">
+    <div class="orb w-40 h-40 -top-10 -left-10 drift"></div>
+    <div class="relative z-10 text-white text-center md:text-start">
+      <div class="inline-flex items-center gap-2 bg-gold/20 border border-gold/40 rounded-full px-3 py-1 text-xs font-semibold mb-3">
+        <i class="fa-solid fa-bolt text-gold"></i><span data-i18n="promo1_tag">Limited-time offer</span>
+      </div>
+      <h3 class="text-2xl md:text-3xl font-extrabold mb-1" data-i18n="promo1_title">50% off Teeth Whitening this month</h3>
+      <p class="text-white/70" data-i18n="promo1_sub">Professional in-clinic whitening, results visible in a single session.</p>
+    </div>
+    <a href="#booking" class="btn-gold relative z-10 px-7 py-3.5 whitespace-nowrap glow-gold" data-i18n="promo1_cta">Claim Offer</a>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services" class="max-w-7xl mx-auto px-4 py-24">
+  <div class="text-center max-w-2xl mx-auto mb-14" data-aos="fade-up">
+    <span class="text-teal-600 font-semibold" data-i18n="services_eyebrow">Our Services</span>
+    <h2 class="text-3xl lg:text-4xl font-extrabold mt-2" data-i18n="services_title">Complete dental care, under one roof</h2>
+  </div>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-7" id="servicesGrid">
+    <!-- cards injected have static HTML for SEO + JS attaches modal handlers -->
+  </div>
+</section>
+
+<!-- ============ PROMO BANNER 2 ============ -->
+<section class="max-w-7xl mx-auto px-4 pb-6">
+  <div class="rounded-[28px] p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden border-2 border-dashed border-teal-400 bg-teal-50" data-aos="zoom-in">
+    <div class="relative z-10 text-navy text-center md:text-start">
+      <div class="inline-flex items-center gap-2 bg-teal-500/10 text-teal-700 rounded-full px-3 py-1 text-xs font-semibold mb-3">
+        <i class="fa-solid fa-cube"></i><span data-i18n="promo2_tag">New patients</span>
+      </div>
+      <h3 class="text-2xl md:text-3xl font-extrabold mb-1" data-i18n="promo2_title">Free 3D Dental Scan on your first visit</h3>
+      <p class="text-navy/60" data-i18n="promo2_sub">A complete digital map of your teeth before any treatment plan.</p>
+    </div>
+    <a href="#booking" class="btn-primary relative z-10 px-7 py-3.5 whitespace-nowrap" data-i18n="promo2_cta">Book Free Scan</a>
+  </div>
+</section>
+
+<!-- ============ BEFORE / AFTER GALLERY ============ -->
+<section id="gallery" class="max-w-7xl mx-auto px-4 py-24">
+  <div class="text-center max-w-2xl mx-auto mb-14" data-aos="fade-up">
+    <span class="text-teal-600 font-semibold" data-i18n="gallery_eyebrow">Real Results</span>
+    <h2 class="text-3xl lg:text-4xl font-extrabold mt-2" data-i18n="gallery_title">Before &amp; after transformations</h2>
+    <p class="text-navy/60 mt-3" data-i18n="gallery_sub">Drag the slider to compare. Real patients, real results.</p>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="ba-wrap shadow-lg" data-aos="fade-up">
+      <span class="ba-label start-2" data-i18n="ba_before">Before</span>
+      <img src="https://images.unsplash.com/photo-1571772996211-2f02c9727629?q=80&w=800&auto=format&fit=crop" alt="Before whitening">
+      <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?q=80&w=800&auto=format&fit=crop" alt="After whitening" class="ba-after">
+      <div class="ba-handle"><div class="ba-knob"><i class="fa-solid fa-arrows-left-right text-sm"></i></div></div>
+    </div>
+    <div class="ba-wrap shadow-lg" data-aos="fade-up" data-aos-delay="100">
+      <span class="ba-label start-2" data-i18n="ba_before">Before</span>
+      <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=800&auto=format&fit=crop" alt="Before orthodontics">
+      <img src="https://images.unsplash.com/photo-1601058268499-e52e33e5cd35?q=80&w=800&auto=format&fit=crop" alt="After orthodontics" class="ba-after">
+      <div class="ba-handle"><div class="ba-knob"><i class="fa-solid fa-arrows-left-right text-sm"></i></div></div>
+    </div>
+    <div class="ba-wrap shadow-lg" data-aos="fade-up" data-aos-delay="200">
+      <span class="ba-label start-2" data-i18n="ba_before">Before</span>
+      <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=800&auto=format&fit=crop" alt="Before implants">
+      <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=800&auto=format&fit=crop" alt="After implants" class="ba-after">
+      <div class="ba-handle"><div class="ba-knob"><i class="fa-solid fa-arrows-left-right text-sm"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOCTORS ============ -->
+<section id="doctors" class="bg-white py-24">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-14" data-aos="fade-up">
+      <span class="text-teal-600 font-semibold" data-i18n="doctors_eyebrow">Meet the Team</span>
+      <h2 class="text-3xl lg:text-4xl font-extrabold mt-2" data-i18n="doctors_title">Specialists dedicated to your smile</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-7" id="doctorsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ STATS / TRUST DARK BAND ============ -->
+<section class="grad-brand py-16 relative overflow-hidden">
+  <div class="particle-field" id="particleField2"></div>
+  <div class="max-w-7xl mx-auto px-4 relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center text-white">
+    <div data-aos="fade-up"><div class="text-4xl font-extrabold grad-text">15k+</div><div class="text-white/70 text-sm mt-1" data-i18n="stat_1">Happy Smiles</div></div>
+    <div data-aos="fade-up" data-aos-delay="100"><div class="text-4xl font-extrabold grad-text">99.8%</div><div class="text-white/70 text-sm mt-1" data-i18n="stat_2">Success Rate</div></div>
+    <div data-aos="fade-up" data-aos-delay="200"><div class="text-4xl font-extrabold grad-text">18</div><div class="text-white/70 text-sm mt-1" data-i18n="stat_3">Years Experience</div></div>
+    <div data-aos="fade-up" data-aos-delay="300"><div class="text-4xl font-extrabold grad-text">12</div><div class="text-white/70 text-sm mt-1" data-i18n="stat_4">Specialists</div></div>
+  </div>
+</section>
+
+<!-- ============ SMILE ASSESSMENT / COST CALCULATOR ============ -->
+<section id="calculator" class="max-w-5xl mx-auto px-4 py-24">
+  <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+    <span class="text-teal-600 font-semibold" data-i18n="calc_eyebrow">Plan Ahead</span>
+    <h2 class="text-3xl lg:text-4xl font-extrabold mt-2" data-i18n="calc_title">Smile consultation &amp; cost estimator</h2>
+    <p class="text-navy/60 mt-3" data-i18n="calc_sub">Answer 3 quick questions for a rough estimate. Final pricing is confirmed at your consultation.</p>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow-xl p-6 md:p-10" data-aos="fade-up">
+    <div id="calcStep1">
+      <h3 class="font-bold text-lg mb-4" data-i18n="calc_q1">1. What's your main concern?</h3>
+      <div class="grid sm:grid-cols-2 gap-3" id="calcOptions1">
+        <div class="calc-option" data-value="whitening" data-price="150"><i class="fa-solid fa-star text-gold mb-2"></i><div class="font-semibold text-sm" data-i18n="calc_o1">Discoloured teeth</div></div>
+        <div class="calc-option" data-value="alignment" data-price="1200"><i class="fa-solid fa-tooth text-cyan-600 mb-2"></i><div class="font-semibold text-sm" data-i18n="calc_o2">Crooked / misaligned teeth</div></div>
+        <div class="calc-option" data-value="missing" data-price="900"><i class="fa-solid fa-circle-minus text-teal-600 mb-2"></i><div class="font-semibold text-sm" data-i18n="calc_o3">Missing tooth</div></div>
+        <div class="calc-option" data-value="pain" data-price="80"><i class="fa-solid fa-triangle-exclamation text-red-500 mb-2"></i><div class="font-semibold text-sm" data-i18n="calc_o4">Pain or sensitivity</div></div>
+      </div>
+    </div>
+
+    <div id="calcStep2" class="hidden mt-8">
+      <h3 class="font-bold text-lg mb-4" data-i18n="calc_q2">2. How many teeth are affected?</h3>
+      <div class="grid grid-cols-3 gap-3" id="calcOptions2">
+        <div class="calc-option text-center" data-mult="1"><div class="font-semibold" data-i18n="calc_r1">1 tooth</div></div>
+        <div class="calc-option text-center" data-mult="4"><div class="font-semibold" data-i18n="calc_r2">2–6 teeth</div></div>
+        <div class="calc-option text-center" data-mult="10"><div class="font-semibold" data-i18n="calc_r3">Full arch</div></div>
+      </div>
+    </div>
+
+    <div id="calcResult" class="hidden mt-8 rounded-2xl bg-teal-50 border border-teal-200 p-6 text-center">
+      <div class="text-navy/60 text-sm mb-1" data-i18n="calc_result_label">Estimated starting price</div>
+      <div class="text-4xl font-extrabold text-teal-700 mb-3" id="calcPriceOut">$0</div>
+      <a href="#booking" class="btn-primary inline-block px-6 py-3" data-i18n="calc_cta">Book This Treatment</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPOINTMENT BOOKING SYSTEM ============ -->
+<section id="booking" class="bg-white py-24">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-10" data-aos="fade-up">
+      <span class="text-teal-600 font-semibold" data-i18n="booking_eyebrow">Reserve Your Visit</span>
+      <h2 class="text-3xl lg:text-4xl font-extrabold mt-2" data-i18n="booking_title">Book your appointment</h2>
+    </div>
+
+    <!-- stepper -->
+    <div class="flex items-center justify-center gap-3 mb-10" data-aos="fade-up">
+      <div class="step-dot active" data-step="1">1</div>
+      <div class="step-line" data-line="1"></div>
+      <div class="step-dot" data-step="2">2</div>
+      <div class="step-line" data-line="2"></div>
+      <div class="step-dot" data-step="3">3</div>
+    </div>
+
+    <form id="bookingForm" class="bg-pearl rounded-3xl shadow-xl p-6 md:p-10" data-aos="fade-up">
+
+      <!-- STEP 1: personal info -->
+      <div class="booking-step" data-step-panel="1">
+        <h3 class="font-bold text-lg mb-5" data-i18n="booking_step1_title">Your details</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1.5" data-i18n="booking_name">Full name</label>
+            <input type="text" id="bkName" class="field" data-i18n-placeholder="booking_name_ph" placeholder="e.g. Ahmed Mostafa">
+            <p class="text-red-500 text-xs mt-1 hidden" data-error="bkName" data-i18n="err_required">This field is required</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" data-i18n="booking_phone">Phone number</label>
+            <input type="tel" id="bkPhone" class="field" data-i18n-placeholder="booking_phone_ph" placeholder="01xxxxxxxxx">
+            <p class="text-red-500 text-xs mt-1 hidden" data-error="bkPhone" data-i18n="err_phone">Enter a valid phone number</p>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium mb-1.5" data-i18n="booking_email">Email address</label>
+            <input type="email" id="bkEmail" class="field" data-i18n-placeholder="booking_email_ph" placeholder="you@example.com">
+            <p class="text-red-500 text-xs mt-1 hidden" data-error="bkEmail" data-i18n="err_email">Enter a valid email address</p>
+          </div>
+        </div>
+        <div class="flex justify-end mt-8">
+          <button type="button" class="btn-primary px-7 py-3" data-next="2" data-i18n="booking_next">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: service + doctor -->
+      <div class="booking-step hidden" data-step-panel="2">
+        <h3 class="font-bold text-lg mb-5" data-i18n="booking_step2_title">Service &amp; doctor</h3>
+        <div class="grid sm:grid-cols-2 gap-4 mb-2">
+          <div>
+            <label class="block text-sm font-medium mb-1.5" data-i18n="booking_service">Service</label>
+            <select id="bkService" class="field">
+              <option value="" data-i18n="booking_service_ph">Choose a service</option>
+              <option value="cosmetic" data-i18n="svc1_title">Cosmetic Dentistry</option>
+              <option value="implants" data-i18n="svc2_title">Dental Implants</option>
+              <option value="ortho" data-i18n="svc3_title">Orthodontics</option>
+              <option value="pediatric" data-i18n="svc4_title">Pediatric Dentistry</option>
+              <option value="rootcanal" data-i18n="svc5_title">Root Canal Treatment</option>
+              <option value="whitening" data-i18n="svc6_title">Teeth Whitening</option>
+            </select>
+            <p class="text-red-500 text-xs mt-1 hidden" data-error="bkService" data-i18n="err_required">This field is required</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5" data-i18n="booking_doctor">Preferred doctor</label>
+            <select id="bkDoctor" class="field">
+              <option value="" data-i18n="booking_doctor_ph">No preference</option>
+              <option value="dr_lina" data-i18n="doc1_name">Dr. Lina Farouk</option>
+              <option value="dr_omar" data-i18n="doc2_name">Dr. Omar Hassan</option>
+              <option value="dr_sara" data-i18n="doc3_name">Dr. Sara Adel</option>
+              <option value="dr_karim" data-i18n="doc4_name">Dr. Karim Yousef</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex justify-between mt-8">
+          <button type="button" class="px-7 py-3 rounded-full border border-navy/15 font-semibold" data-prev="1" data-i18n="booking_back">Back</button>
+          <button type="button" class="btn-primary px-7 py-3" data-next="3" data-i18n="booking_next">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: date + time -->
+      <div class="booking-step hidden" data-step-panel="3">
+        <h3 class="font-bold text-lg mb-5" data-i18n="booking_step3_title">Pick date &amp; time</h3>
+        <div class="mb-5">
+          <label class="block text-sm font-medium mb-1.5" data-i18n="booking_date">Preferred date</label>
+          <input type="date" id="bkDate" class="field">
+          <p class="text-red-500 text-xs mt-1 hidden" data-error="bkDate" data-i18n="err_required">This field is required</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2" data-i18n="booking_time">Available time slots</label>
+          <div class="grid grid-cols-4 sm:grid-cols-6 gap-2" id="timeSlots">
+            <div class="time-slot" data-time="9:00">9:00</div>
+            <div class="time-slot" data-time="10:00">10:00</div>
+            <div class="time-slot taken" data-time="11:00">11:00</div>
+            <div class="time-slot" data-time="12:00">12:00</div>
+            <div class="time-slot" data-time="1:00">1:00</div>
+            <div class="time-slot taken" data-time="2:00">2:00</div>
+            <div class="time-slot" data-time="3:00">3:00</div>
+            <div class="time-slot" data-time="4:00">4:00</div>
+            <div class="time-slot" data-time="5:00">5:00</div>
+            <div class="time-slot" data-time="6:00">6:00</div>
+            <div class="time-slot" data-time="7:00">7:00</div>
+            <div class="time-slot" data-time="8:00">8:00</div>
+          </div>
+          <p class="text-red-500 text-xs mt-1 hidden" data-error="bkTime" data-i18n="err_time">Please choose a time slot</p>
+        </div>
+        <div class="flex justify-between mt-8">
+          <button type="button" class="px-7 py-3 rounded-full border border-navy/15 font-semibold" data-prev="2" data-i18n="booking_back">Back</button>
+          <button type="submit" class="btn-gold px-8 py-3" data-i18n="booking_confirm">Confirm Booking</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="max-w-5xl mx-auto px-4 py-24">
+  <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+    <span class="text-teal-600 font-semibold" data-i18n="test_eyebrow">Patient Stories</span>
+    <h2 class="text-3xl lg:text-4xl font-extrabold mt-2" data-i18n="test_title">What our patients say</h2>
+  </div>
+
+  <div class="relative" data-aos="fade-up">
+    <div class="overflow-hidden rounded-3xl bg-pearl border border-navy/5">
+      <div class="test-track" id="testTrack">
+
+        <div class="test-slide p-8 md:p-12 text-center">
+          <div class="flex justify-center gap-1 text-gold mb-4">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-lg md:text-xl text-navy/80 max-w-2xl mx-auto mb-6" data-i18n="test1_text">"The team made a scary root canal feel completely manageable. Modern equipment, zero pain, and they explained every step."</p>
+          <div class="flex items-center justify-center gap-3">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop" class="w-11 h-11 rounded-full object-cover" alt="Patient">
+            <div class="text-start">
+              <div class="font-semibold text-sm" data-i18n="test1_name">Yasmin K.</div>
+              <div class="text-navy/50 text-xs" data-i18n="test1_role">Root Canal Patient</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="test-slide p-8 md:p-12 text-center">
+          <div class="flex justify-center gap-1 text-gold mb-4">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-lg md:text-xl text-navy/80 max-w-2xl mx-auto mb-6" data-i18n="test2_text">"My implants look and feel completely natural. Dr. Omar walked me through every option before we decided together."</p>
+          <div class="flex items-center justify-center gap-3">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" class="w-11 h-11 rounded-full object-cover" alt="Patient">
+            <div class="text-start">
+              <div class="font-semibold text-sm" data-i18n="test2_name">Mostafa R.</div>
+              <div class="text-navy/50 text-xs" data-i18n="test2_role">Dental Implants</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="test-slide p-8 md:p-12 text-center">
+          <div class="flex justify-center gap-1 text-gold mb-4">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-lg md:text-xl text-navy/80 max-w-2xl mx-auto mb-6" data-i18n="test3_text">"My son actually looks forward to his check-ups now. The pediatric wing is bright, friendly, and stress-free."</p>
+          <div class="flex items-center justify-center gap-3">
+            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=100&auto=format&fit=crop" class="w-11 h-11 rounded-full object-cover" alt="Patient">
+            <div class="text-start">
+              <div class="font-semibold text-sm" data-i18n="test3_name">Heba S.</div>
+              <div class="text-navy/50 text-xs" data-i18n="test3_role">Parent, Pediatric Care</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <button id="testPrev" class="absolute top-1/2 -translate-y-1/2 -start-4 md:-start-6 w-11 h-11 rounded-full bg-white shadow-lg flex items-center justify-center" aria-label="Previous"><i class="fa-solid fa-chevron-left rtl:rotate-180"></i></button>
+    <button id="testNext" class="absolute top-1/2 -translate-y-1/2 -end-4 md:-end-6 w-11 h-11 rounded-full bg-white shadow-lg flex items-center justify-center" aria-label="Next"><i class="fa-solid fa-chevron-right rtl:rotate-180"></i></button>
+    <div class="flex justify-center gap-2 mt-6" id="testDots"></div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="bg-white py-24">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="text-center mb-12" data-aos="fade-up">
+      <span class="text-teal-600 font-semibold" data-i18n="faq_eyebrow">Questions</span>
+      <h2 class="text-3xl lg:text-4xl font-extrabold mt-2" data-i18n="faq_title">Frequently asked questions</h2>
+    </div>
+
+    <div id="faqList" data-aos="fade-up">
+      <div class="faq-item py-4">
+        <div class="faq-q flex items-center justify-between">
+          <span class="font-semibold" data-i18n="faq1_q">Do you accept dental insurance?</span>
+          <i class="fa-solid fa-chevron-down chev text-teal-600"></i>
+        </div>
+        <div class="faq-a text-navy/60 text-sm pt-3 pe-8" data-i18n="faq1_a">Yes, we work with most major insurance providers in Egypt. Bring your policy details to your first visit and our front desk will confirm your coverage.</div>
+      </div>
+      <div class="faq-item py-4">
+        <div class="faq-q flex items-center justify-between">
+          <span class="font-semibold" data-i18n="faq2_q">Is teeth whitening safe for enamel?</span>
+          <i class="fa-solid fa-chevron-down chev text-teal-600"></i>
+        </div>
+        <div class="faq-a text-navy/60 text-sm pt-3 pe-8" data-i18n="faq2_a">Our in-clinic whitening uses a controlled, dentist-supervised concentration that's been clinically tested to protect enamel while lifting stains safely.</div>
+      </div>
+      <div class="faq-item py-4">
+        <div class="faq-q flex items-center justify-between">
+          <span class="font-semibold" data-i18n="faq3_q">How long do dental implants last?</span>
+          <i class="fa-solid fa-chevron-down chev text-teal-600"></i>
+        </div>
+        <div class="faq-a text-navy/60 text-sm pt-3 pe-8" data-i18n="faq3_a">With proper care, our titanium implants typically last 15–25 years or longer, and we provide a full aftercare plan to help maximize their lifespan.</div>
+      </div>
+      <div class="faq-item py-4">
+        <div class="faq-q flex items-center justify-between">
+          <span class="font-semibold" data-i18n="faq4_q">Do you treat dental emergencies?</span>
+          <i class="fa-solid fa-chevron-down chev text-teal-600"></i>
+        </div>
+        <div class="faq-a text-navy/60 text-sm pt-3 pe-8" data-i18n="faq4_a">Yes — our emergency line is staffed 24/7 for severe pain, trauma, or swelling. Call the number in the top bar and we'll guide you through next steps.</div>
+      </div>
+      <div class="faq-item py-4">
+        <div class="faq-q flex items-center justify-between">
+          <span class="font-semibold" data-i18n="faq5_q">Can I get a payment plan for treatment?</span>
+          <i class="fa-solid fa-chevron-down chev text-teal-600"></i>
+        </div>
+        <div class="faq-a text-navy/60 text-sm pt-3 pe-8" data-i18n="faq5_a">Absolutely. We offer 0% interest installment plans on implants, orthodontics, and full smile makeovers — ask our coordinator for details.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EMERGENCY BANNER ============ -->
+<section class="bg-red-600 text-white py-8">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-5">
+    <div class="flex items-center gap-4 text-center md:text-start">
+      <div class="w-14 h-14 rounded-full bg-white/15 flex items-center justify-center text-2xl pulse-red shrink-0">
+        <i class="fa-solid fa-kit-medical"></i>
+      </div>
+      <div>
+        <div class="font-bold text-lg" data-i18n="emergency_title">Dental emergency? We're here 24/7.</div>
+        <div class="text-white/80 text-sm" data-i18n="emergency_sub">Severe pain, trauma, or swelling — call now, don't wait.</div>
+      </div>
+    </div>
+    <a href="tel:+201000000000" class="bg-white text-red-600 font-bold rounded-full px-7 py-3.5 flex items-center gap-2 shrink-0 hover:scale-105 transition">
+      <i class="fa-solid fa-phone"></i> <span data-i18n="emergency_cta">Call Emergency Line</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" class="bg-navydeep text-white pt-20 pb-8">
+  <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
+
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <svg width="36" height="36" viewBox="0 0 64 64" fill="none">
+          <path d="M32 6C20 6 12 13 12 24c0 9 3 12 4 20 1 7 3 14 8 14 4 0 4-9 5-15 1-4 2-6 3-6s2 2 3 6c1 6 1 15 5 15 5 0 7-7 8-14 1-8 4-11 4-20 0-11-8-18-20-18z" fill="url(#toothGrad)"/>
+        </svg>
+        <span class="font-bold text-lg">The Bright <span class="grad-text">Teeth</span></span>
+      </div>
+      <p class="text-white/60 text-sm leading-relaxed mb-5" data-i18n="footer_about">A design-forward dental clinic combining board-certified specialists with calm, modern care since 2008.</p>
+      <div class="flex gap-3">
+        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500 transition"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500 transition"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500 transition"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-cyan-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div>
+      <h4 class="font-semibold mb-4" data-i18n="footer_links_title">Quick Links</h4>
+      <ul class="space-y-2.5 text-white/60 text-sm">
+        <li><a href="#about" class="hover:text-teal-300 transition" data-i18n="nav_about">About</a></li>
+        <li><a href="#services" class="hover:text-teal-300 transition" data-i18n="nav_services">Services</a></li>
+        <li><a href="#doctors" class="hover:text-teal-300 transition" data-i18n="nav_doctors">Doctors</a></li>
+        <li><a href="#gallery" class="hover:text-teal-300 transition" data-i18n="nav_gallery">Gallery</a></li>
+        <li><a href="#booking" class="hover:text-teal-300 transition" data-i18n="nav_booking">Booking</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold mb-4" data-i18n="footer_hours_title">Working Hours</h4>
+      <table class="text-white/60 text-sm w-full">
+        <tr><td class="py-1" data-i18n="hours_1">Sat – Wed</td><td class="py-1 text-end">9:00 AM – 10:00 PM</td></tr>
+        <tr><td class="py-1" data-i18n="hours_2">Thursday</td><td class="py-1 text-end">9:00 AM – 6:00 PM</td></tr>
+        <tr><td class="py-1" data-i18n="hours_3">Friday</td><td class="py-1 text-end" data-i18n="hours_emergency">Emergency Only</td></tr>
+      </table>
+      <div class="mt-4 rounded-xl overflow-hidden border border-white/10 h-32 bg-white/5 flex items-center justify-center text-white/40 text-sm">
+        <i class="fa-solid fa-map-location-dot me-2"></i> <span data-i18n="footer_map_placeholder">Map location — Tanta, Egypt</span>
+      </div>
+    </div>
+
+    <div>
+      <h4 class="font-semibold mb-4" data-i18n="footer_newsletter_title">Stay Updated</h4>
+      <p class="text-white/60 text-sm mb-4" data-i18n="footer_newsletter_sub">Offers, dental tips, and clinic news — no spam.</p>
+      <form id="newsletterForm" class="flex gap-2">
+        <input type="email" required data-i18n-placeholder="footer_newsletter_ph" placeholder="Your email" class="flex-1 rounded-full px-4 py-2.5 bg-white/10 border border-white/15 text-sm focus:outline-none focus:border-teal-400">
+        <button class="w-11 h-11 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 flex items-center justify-center shrink-0"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+      <p id="newsletterMsg" class="text-teal-300 text-xs mt-2 hidden" data-i18n="footer_newsletter_success">Thanks! You're subscribed.</p>
+    </div>
+
+  </div>
+
+  <div class="border-t border-white/10 pt-6">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3 text-white/50 text-xs">
+      <span data-i18n="footer_copyright">© 2026 The Bright Teeth Dental Clinic. All rights reserved.</span>
+      <span data-i18n="footer_credit">Crafted with care for healthier smiles.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ SERVICE DETAIL MODAL ============ -->
+<div class="modal-backdrop" id="serviceModal">
+  <div class="modal-box p-8">
+    <button class="absolute top-4 end-4 w-9 h-9 rounded-full bg-navy/5 flex items-center justify-center" onclick="closeModal('serviceModal')" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div id="serviceModalIcon" class="w-14 h-14 rounded-2xl bg-teal-500/10 text-teal-600 flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-tooth"></i></div>
+    <h3 id="serviceModalTitle" class="text-2xl font-extrabold mb-2">Service</h3>
+    <div id="serviceModalPrice" class="price-tag inline-block px-3 py-1 mb-4">From $0</div>
+    <p id="serviceModalDesc" class="text-navy/70 leading-relaxed mb-6">Description</p>
+    <ul id="serviceModalList" class="space-y-2 mb-8"></ul>
+    <a href="#booking" onclick="closeModal('serviceModal')" class="btn-primary block text-center py-3" data-i18n="modal_book_cta">Book This Service</a>
+  </div>
+</div>
+
+<!-- ============ BOOKING CONFIRMATION MODAL ============ -->
+<div class="modal-backdrop" id="confirmModal">
+  <div class="modal-box p-8 text-center">
+    <div class="w-16 h-16 rounded-full bg-teal-500/10 text-teal-600 flex items-center justify-center text-3xl mx-auto mb-5">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <h3 class="text-2xl font-extrabold mb-2" data-i18n="confirm_title">Appointment confirmed!</h3>
+    <p class="text-navy/60 mb-6" data-i18n="confirm_sub">We've saved your slot. A confirmation SMS is on its way.</p>
+    <div class="bg-pearl rounded-2xl p-5 text-start mb-6 space-y-2 text-sm">
+      <div class="flex justify-between"><span class="text-navy/50" data-i18n="confirm_ref">Reference code</span><span class="font-bold" id="confirmRef">BT-000000</span></div>
+      <div class="flex justify-between"><span class="text-navy/50" data-i18n="confirm_name">Name</span><span class="font-semibold" id="confirmName">—</span></div>
+      <div class="flex justify-between"><span class="text-navy/50" data-i18n="confirm_service">Service</span><span class="font-semibold" id="confirmService">—</span></div>
+      <div class="flex justify-between"><span class="text-navy/50" data-i18n="confirm_datetime">Date &amp; time</span><span class="font-semibold" id="confirmDatetime">—</span></div>
+    </div>
+    <button onclick="closeModal('confirmModal')" class="btn-primary w-full py-3" data-i18n="confirm_close">Done</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+/* =====================================================================
+   TRANSLATIONS
+===================================================================== */
+const translations = {
+  en: {
+    top_emergency: "24/7 Emergency: +20 100 000 0000",
+    top_hours: "Sat–Thu: 9:00 AM – 10:00 PM",
+    top_address: "12 Nile Corniche St, Tanta, Egypt",
+    top_offer: "50% off Teeth Whitening this month",
+    nav_home:"Home", nav_about:"About", nav_services:"Services", nav_doctors:"Doctors",
+    nav_gallery:"Gallery", nav_booking:"Booking", nav_contact:"Contact", nav_book_now:"Book Now",
+    hero_badge:"Egypt's top-rated dental clinic, 2026",
+    hero_title_1:"Confidence starts", hero_title_2:"with your smile.",
+    hero_sub:"Precision dentistry, warm care, and a design-forward clinic — everything your smile deserves, in one visit.",
+    hero_cta_1:"Book Appointment", hero_cta_2:"Explore Services",
+    hero_stat_1:"Happy smiles", hero_stat_2:"Success rate", hero_stat_3:"Years of care",
+    hero_float_1:"Success rate", hero_float_2:"On staff daily", hero_float_2_num:"12 Specialists",
+    marquee_1:"✦ Free 3D Dental Scan on your first visit",
+    marquee_2:"✦ 50% off Teeth Whitening this month",
+    marquee_3:"✦ 0% interest installment plans on implants",
+    marquee_4:"✦ Kids under 10 get a free check-up in Ramadan",
+    about_eyebrow:"About The Bright Teeth",
+    about_title:"Where dentistry meets design, and expertise meets warmth.",
+    about_p1:"Founded in 2008, The Bright Teeth has grown into one of the region's most trusted dental destinations — combining board-certified specialists with the latest digital diagnostics, all inside a clinic built to feel calm, not clinical.",
+    about_badge_title:"ISO 9001 Certified Clinic", about_badge_sub:"Sterilization & safety standards",
+    about_f1_t:"Painless technology", about_f1_d:"Laser & digital anesthesia options",
+    about_f2_t:"Specialist-led care", about_f2_d:"12 specialists across every field",
+    about_f3_t:"Flexible payment", about_f3_d:"Installment plans on major treatments",
+    about_f4_t:"3D digital scanning", about_f4_d:"Precise, same-day treatment planning",
+    about_cta:"Book a Consultation",
+    promo1_tag:"Limited-time offer", promo1_title:"50% off Teeth Whitening this month",
+    promo1_sub:"Professional in-clinic whitening, results visible in a single session.", promo1_cta:"Claim Offer",
+    services_eyebrow:"Our Services", services_title:"Complete dental care, under one roof",
+    promo2_tag:"New patients", promo2_title:"Free 3D Dental Scan on your first visit",
+    promo2_sub:"A complete digital map of your teeth before any treatment plan.", promo2_cta:"Book Free Scan",
+    gallery_eyebrow:"Real Results", gallery_title:"Before & after transformations",
+    gallery_sub:"Drag the slider to compare. Real patients, real results.",
+    ba_before:"Before", ba_after:"After",
+    doctors_eyebrow:"Meet the Team", doctors_title:"Specialists dedicated to your smile",
+    stat_1:"Happy Smiles", stat_2:"Success Rate", stat_3:"Years Experience", stat_4:"Specialists",
+    calc_eyebrow:"Plan Ahead", calc_title:"Smile consultation & cost estimator",
+    calc_sub:"Answer 3 quick questions for a rough estimate. Final pricing is confirmed at your consultation.",
+    calc_q1:"1. What's your main concern?",
+    calc_o1:"Discoloured teeth", calc_o2:"Crooked / misaligned teeth", calc_o3:"Missing tooth", calc_o4:"Pain or sensitivity",
+    calc_q2:"2. How many teeth are affected?",
+    calc_r1:"1 tooth", calc_r2:"2–6 teeth", calc_r3:"Full arch",
+    calc_result_label:"Estimated starting price", calc_cta:"Book This Treatment",
+    booking_eyebrow:"Reserve Your Visit", booking_title:"Book your appointment",
+    booking_step1_title:"Your details", booking_name:"Full name", booking_name_ph:"e.g. Ahmed Mostafa",
+    booking_phone:"Phone number", booking_phone_ph:"01xxxxxxxxx",
+    booking_email:"Email address", booking_email_ph:"you@example.com",
+    booking_next:"Continue", booking_back:"Back",
+    booking_step2_title:"Service & doctor", booking_service:"Service", booking_service_ph:"Choose a service",
+    booking_doctor:"Preferred doctor", booking_doctor_ph:"No preference",
+    booking_step3_title:"Pick date & time", booking_date:"Preferred date", booking_time:"Available time slots",
+    booking_confirm:"Confirm Booking",
+    err_required:"This field is required", err_phone:"Enter a valid phone number", err_email:"Enter a valid email address", err_time:"Please choose a time slot",
+    svc1_title:"Cosmetic Dentistry", svc2_title:"Dental Implants", svc3_title:"Orthodontics",
+    svc4_title:"Pediatric Dentistry", svc5_title:"Root Canal Treatment", svc6_title:"Teeth Whitening",
+    doc1_name:"Dr. Lina Farouk", doc2_name:"Dr. Omar Hassan", doc3_name:"Dr. Sara Adel", doc4_name:"Dr. Karim Yousef",
+    test_eyebrow:"Patient Stories", test_title:"What our patients say",
+    test1_text:"\"The team made a scary root canal feel completely manageable. Modern equipment, zero pain, and they explained every step.\"",
+    test1_name:"Yasmin K.", test1_role:"Root Canal Patient",
+    test2_text:"\"My implants look and feel completely natural. Dr. Omar walked me through every option before we decided together.\"",
+    test2_name:"Mostafa R.", test2_role:"Dental Implants",
+    test3_text:"\"My son actually looks forward to his check-ups now. The pediatric wing is bright, friendly, and stress-free.\"",
+    test3_name:"Heba S.", test3_role:"Parent, Pediatric Care",
+    faq_eyebrow:"Questions", faq_title:"Frequently asked questions",
+    faq1_q:"Do you accept dental insurance?", faq1_a:"Yes, we work with most major insurance providers in Egypt. Bring your policy details to your first visit and our front desk will confirm your coverage.",
+    faq2_q:"Is teeth whitening safe for enamel?", faq2_a:"Our in-clinic whitening uses a controlled, dentist-supervised concentration that's been clinically tested to protect enamel while lifting stains safely.",
+    faq3_q:"How long do dental implants last?", faq3_a:"With proper care, our titanium implants typically last 15–25 years or longer, and we provide a full aftercare plan to help maximize their lifespan.",
+    faq4_q:"Do you treat dental emergencies?", faq4_a:"Yes — our emergency line is staffed 24/7 for severe pain, trauma, or swelling. Call the number in the top bar and we'll guide you through next steps.",
+    faq5_q:"Can I get a payment plan for treatment?", faq5_a:"Absolutely. We offer 0% interest installment plans on implants, orthodontics, and full smile makeovers — ask our coordinator for details.",
+    emergency_title:"Dental emergency? We're here 24/7.", emergency_sub:"Severe pain, trauma, or swelling — call now, don't wait.", emergency_cta:"Call Emergency Line",
+    footer_about:"A design-forward dental clinic combining board-certified specialists with calm, modern care since 2008.",
+    footer_links_title:"Quick Links", footer_hours_title:"Working Hours",
+    hours_1:"Sat – Wed", hours_2:"Thursday", hours_3:"Friday", hours_emergency:"Emergency Only",
+    footer_map_placeholder:"Map location — Tanta, Egypt",
+    footer_newsletter_title:"Stay Updated", footer_newsletter_sub:"Offers, dental tips, and clinic news — no spam.",
+    footer_newsletter_ph:"Your email", footer_newsletter_success:"Thanks! You're subscribed.",
+    footer_copyright:"© 2026 The Bright Teeth Dental Clinic. All rights reserved.",
+    footer_credit:"Crafted with care for healthier smiles.",
+    modal_book_cta:"Book This Service",
+    confirm_title:"Appointment confirmed!", confirm_sub:"We've saved your slot. A confirmation SMS is on its way.",
+    confirm_ref:"Reference code", confirm_name:"Name", confirm_service:"Service", confirm_datetime:"Date & time", confirm_close:"Done"
+  },
+  ar: {
+    top_emergency: "طوارئ ٢٤/٧: ٠١٠٠٠٠٠٠٠٠٠",
+    top_hours: "السبت–الخميس: ٩ صباحًا – ١٠ مساءً",
+    top_address: "١٢ شارع كورنيش النيل، طنطا، مصر",
+    top_offer: "خصم ٥٠٪ على تبييض الأسنان هذا الشهر",
+    nav_home:"الرئيسية", nav_about:"من نحن", nav_services:"خدماتنا", nav_doctors:"أطباؤنا",
+    nav_gallery:"معرض الصور", nav_booking:"الحجز", nav_contact:"تواصل معنا", nav_book_now:"احجز الآن",
+    hero_badge:"العيادة الأعلى تقييمًا في مصر لعام ٢٠٢٦",
+    hero_title_1:"الثقة تبدأ", hero_title_2:"من ابتسامتك.",
+    hero_sub:"طب أسنان دقيق، رعاية دافئة، وعيادة بتصميم عصري — كل ما تستحقه ابتسامتك في زيارة واحدة.",
+    hero_cta_1:"احجز موعدًا", hero_cta_2:"استكشف الخدمات",
+    hero_stat_1:"ابتسامة سعيدة", hero_stat_2:"نسبة نجاح", hero_stat_3:"سنوات من الرعاية",
+    hero_float_1:"نسبة نجاح", hero_float_2:"يوميًا في العيادة", hero_float_2_num:"١٢ أخصائيًا",
+    marquee_1:"✦ فحص ثلاثي الأبعاد مجاني في أول زيارة",
+    marquee_2:"✦ خصم ٥٠٪ على تبييض الأسنان هذا الشهر",
+    marquee_3:"✦ خطط تقسيط بدون فوائد على الزراعة",
+    marquee_4:"✦ كشف مجاني للأطفال أقل من ١٠ سنوات في رمضان",
+    about_eyebrow:"عن ذا برايت تيث",
+    about_title:"حيث يلتقي طب الأسنان بالتصميم، وتلتقي الخبرة بالدفء.",
+    about_p1:"تأسست عيادة ذا برايت تيث عام ٢٠٠٨، وأصبحت من أكثر الوجهات الموثوقة في طب الأسنان بالمنطقة — نجمع بين أطباء معتمدين وأحدث وسائل التشخيص الرقمي، داخل عيادة صُممت لتشعرك بالهدوء لا بالتوتر.",
+    about_badge_title:"عيادة معتمدة ISO 9001", about_badge_sub:"معايير التعقيم والسلامة",
+    about_f1_t:"تقنيات بلا ألم", about_f1_d:"خيارات تخدير بالليزر والتقنية الرقمية",
+    about_f2_t:"رعاية بإشراف متخصصين", about_f2_d:"١٢ أخصائيًا في كل المجالات",
+    about_f3_t:"خطط دفع مرنة", about_f3_d:"تقسيط على العلاجات الكبرى",
+    about_f4_t:"مسح رقمي ثلاثي الأبعاد", about_f4_d:"تخطيط علاج دقيق في نفس اليوم",
+    about_cta:"احجز استشارة",
+    promo1_tag:"عرض لفترة محدودة", promo1_title:"خصم ٥٠٪ على تبييض الأسنان هذا الشهر",
+    promo1_sub:"تبييض احترافي داخل العيادة، بنتائج تظهر من الجلسة الأولى.", promo1_cta:"احصل على العرض",
+    services_eyebrow:"خدماتنا", services_title:"رعاية أسنان متكاملة تحت سقف واحد",
+    promo2_tag:"للمرضى الجدد", promo2_title:"فحص ثلاثي الأبعاد مجاني في أول زيارة",
+    promo2_sub:"خريطة رقمية كاملة لأسنانك قبل أي خطة علاج.", promo2_cta:"احجز الفحص المجاني",
+    gallery_eyebrow:"نتائج حقيقية", gallery_title:"قبل وبعد",
+    gallery_sub:"اسحب الشريط للمقارنة. مرضى حقيقيون، نتائج حقيقية.",
+    ba_before:"قبل", ba_after:"بعد",
+    doctors_eyebrow:"تعرف على فريقنا", doctors_title:"أخصائيون مكرّسون لابتسامتك",
+    stat_1:"ابتسامة سعيدة", stat_2:"نسبة نجاح", stat_3:"سنوات خبرة", stat_4:"أخصائي",
+    calc_eyebrow:"خطط مسبقًا", calc_title:"استشارة الابتسامة ومقدّر التكلفة",
+    calc_sub:"أجب عن ٣ أسئلة سريعة لتقدير تقريبي. يتم تأكيد السعر النهائي في الاستشارة.",
+    calc_q1:"١. ما هي مشكلتك الأساسية؟",
+    calc_o1:"اصفرار الأسنان", calc_o2:"اعوجاج أو سوء إطباق", calc_o3:"سن مفقود", calc_o4:"ألم أو حساسية",
+    calc_q2:"٢. كم عدد الأسنان المتأثرة؟",
+    calc_r1:"سن واحد", calc_r2:"٢–٦ أسنان", calc_r3:"الفك بالكامل",
+    calc_result_label:"السعر التقديري المبدئي", calc_cta:"احجز هذا العلاج",
+    booking_eyebrow:"احجز زيارتك", booking_title:"احجز موعدك",
+    booking_step1_title:"بياناتك", booking_name:"الاسم الكامل", booking_name_ph:"مثال: أحمد مصطفى",
+    booking_phone:"رقم الهاتف", booking_phone_ph:"٠١xxxxxxxxx",
+    booking_email:"البريد الإلكتروني", booking_email_ph:"example@email.com",
+    booking_next:"متابعة", booking_back:"رجوع",
+    booking_step2_title:"الخدمة والطبيب", booking_service:"الخدمة", booking_service_ph:"اختر خدمة",
+    booking_doctor:"الطبيب المفضل", booking_doctor_ph:"بدون تفضيل",
+    booking_step3_title:"اختر التاريخ والوقت", booking_date:"التاريخ المفضل", booking_time:"المواعيد المتاحة",
+    booking_confirm:"تأكيد الحجز",
+    err_required:"هذا الحقل مطلوب", err_phone:"يرجى إدخال رقم هاتف صحيح", err_email:"يرجى إدخال بريد إلكتروني صحيح", err_time:"يرجى اختيار موعد",
+    svc1_title:"طب الأسنان التجميلي", svc2_title:"زراعة الأسنان", svc3_title:"تقويم الأسنان",
+    svc4_title:"طب أسنان الأطفال", svc5_title:"علاج العصب", svc6_title:"تبييض الأسنان",
+    doc1_name:"د. لينا فاروق", doc2_name:"د. عمر حسن", doc3_name:"د. سارة عادل", doc4_name:"د. كريم يوسف",
+    test_eyebrow:"آراء المرضى", test_title:"ماذا يقول مرضانا",
+    test1_text:"«جعل الفريق علاج العصب المخيف يبدو سهلاً تمامًا. أجهزة حديثة، بدون ألم، وشرحوا لي كل خطوة.»",
+    test1_name:"ياسمين ك.", test1_role:"مريضة علاج عصب",
+    test2_text:"«زرعات أسناني تبدو وتشعر بشكل طبيعي تمامًا. د. عمر شرح لي كل الخيارات قبل أن نقرر معًا.»",
+    test2_name:"مصطفى ر.", test2_role:"زراعة أسنان",
+    test3_text:"«ابني أصبح يتحمس لموعد الكشف الآن. جناح الأطفال مبهج وودود وبدون توتر.»",
+    test3_name:"هبة س.", test3_role:"ولية أمر، رعاية أطفال",
+    faq_eyebrow:"أسئلة شائعة", faq_title:"الأسئلة الأكثر شيوعًا",
+    faq1_q:"هل تقبلون التأمين الصحي على الأسنان؟", faq1_a:"نعم، نتعامل مع معظم شركات التأمين الكبرى في مصر. أحضر تفاصيل بوليصتك في أول زيارة وسيؤكد الاستقبال التغطية.",
+    faq2_q:"هل تبييض الأسنان آمن على المينا؟", faq2_a:"يستخدم التبييض داخل العيادة تركيزًا مدروسًا بإشراف طبيب، وتم اختباره سريريًا لحماية المينا مع إزالة البقع بأمان.",
+    faq3_q:"كم تدوم زراعة الأسنان؟", faq3_a:"مع العناية المناسبة، تدوم زراعاتنا من التيتانيوم عادة من ١٥ إلى ٢٥ عامًا أو أكثر، ونقدم خطة عناية كاملة بعد الزراعة.",
+    faq4_q:"هل تعالجون حالات طوارئ الأسنان؟", faq4_a:"نعم — خط الطوارئ متاح على مدار الساعة للألم الشديد أو الإصابات أو التورم. اتصل بالرقم في الشريط العلوي وسنرشدك للخطوات التالية.",
+    faq5_q:"هل يمكنني الحصول على خطة تقسيط للعلاج؟", faq5_a:"بالتأكيد. نقدم خطط تقسيط بدون فوائد على الزراعة والتقويم وابتسامة هوليوود الكاملة — اسأل منسق الحجوزات للتفاصيل.",
+    emergency_title:"حالة طوارئ أسنان؟ نحن هنا على مدار الساعة.", emergency_sub:"ألم شديد أو إصابة أو تورم — اتصل الآن ولا تنتظر.", emergency_cta:"اتصل بخط الطوارئ",
+    footer_about:"عيادة أسنان بتصميم عصري تجمع بين أطباء معتمدين ورعاية هادئة وحديثة منذ عام ٢٠٠٨.",
+    footer_links_title:"روابط سريعة", footer_hours_title:"مواعيد العمل",
+    hours_1:"السبت – الأربعاء", hours_2:"الخميس", hours_3:"الجمعة", hours_emergency:"طوارئ فقط",
+    footer_map_placeholder:"الموقع على الخريطة — طنطا، مصر",
+    footer_newsletter_title:"ابقَ على اطلاع", footer_newsletter_sub:"عروض ونصائح أسنان وأخبار العيادة — بدون إزعاج.",
+    footer_newsletter_ph:"بريدك الإلكتروني", footer_newsletter_success:"شكرًا لك! تم الاشتراك بنجاح.",
+    footer_copyright:"© ٢٠٢٦ عيادة ذا برايت تيث لطب الأسنان. جميع الحقوق محفوظة.",
+    footer_credit:"صُنعت بعناية من أجل ابتسامة أكثر صحة.",
+    modal_book_cta:"احجز هذه الخدمة",
+    confirm_title:"تم تأكيد الموعد!", confirm_sub:"تم حفظ موعدك. رسالة تأكيد نصية في طريقها إليك.",
+    confirm_ref:"كود المرجع", confirm_name:"الاسم", confirm_service:"الخدمة", confirm_datetime:"التاريخ والوقت", confirm_close:"تم"
+  }
+};
+
+/* =====================================================================
+   SERVICES / DOCTORS DATA
+===================================================================== */
+const servicesData = [
+  { key:'svc1', icon:'fa-wand-magic-sparkles', price:'$120', img:'cosmetic',
+    en:{title:'Cosmetic Dentistry', desc:'Veneers, bonding, and smile makeovers designed around your face and features.', points:['Porcelain veneers','Dental bonding','Full smile makeover']},
+    ar:{title:'طب الأسنان التجميلي', desc:'قشور تجميلية وحشوات تجميلية وابتسامة هوليوود مصممة خصيصًا لملامح وجهك.', points:['قشور بورسلين','حشوات تجميلية','ابتسامة هوليوود كاملة']}},
+  { key:'svc2', icon:'fa-tooth', price:'$450', img:'implants',
+    en:{title:'Dental Implants', desc:'Titanium implants that look, feel, and function like your natural teeth.', points:['Single tooth implants','Full-arch restoration','15–25 year lifespan']},
+    ar:{title:'زراعة الأسنان', desc:'زراعات من التيتانيوم تبدو وتعمل تمامًا مثل أسنانك الطبيعية.', points:['زراعة سن واحد','ترميم الفك بالكامل','عمر افتراضي ١٥–٢٥ عامًا']}},
+  { key:'svc3', icon:'fa-teeth', price:'$900', img:'ortho',
+    en:{title:'Orthodontics', desc:'Metal, ceramic, or clear aligner options to straighten teeth at any age.', points:['Clear aligners','Ceramic braces','Retention plans']},
+    ar:{title:'تقويم الأسنان', desc:'خيارات تقويم معدني أو خزفي أو شفاف لتصحيح الأسنان في أي عمر.', points:['تقويم شفاف','تقويم خزفي','خطط تثبيت بعد التقويم']}},
+  { key:'svc4', icon:'fa-child', price:'$60', img:'pediatric',
+    en:{title:'Pediatric Dentistry', desc:'A gentle, playful approach that builds healthy habits from the first visit.', points:['Fluoride treatments','Sealants','Friendly, low-stress visits']},
+    ar:{title:'طب أسنان الأطفال', desc:'أسلوب لطيف ومرح يبني عادات صحية منذ أول زيارة.', points:['علاج بالفلورايد','عزل الأسنان الوقائي','زيارات ودودة وبدون توتر']}},
+  { key:'svc5', icon:'fa-syringe', price:'$180', img:'rootcanal',
+    en:{title:'Root Canal Treatment', desc:'Pain-free, single-visit root canal therapy using digital precision tools.', points:['Digital imaging','Single-visit option','Local anesthesia comfort']},
+    ar:{title:'علاج العصب', desc:'علاج عصب بدون ألم في جلسة واحدة باستخدام أدوات رقمية دقيقة.', points:['تصوير رقمي','خيار جلسة واحدة','راحة كاملة بالتخدير الموضعي']}},
+  { key:'svc6', icon:'fa-star', price:'$150', img:'whitening',
+    en:{title:'Teeth Whitening', desc:'Clinically-tested in-clinic whitening with visible results in one session.', points:['In-clinic laser whitening','Take-home kits','Enamel-safe formula']},
+    ar:{title:'تبييض الأسنان', desc:'تبييض مُختبر سريريًا داخل العيادة بنتائج ملحوظة من جلسة واحدة.', points:['تبييض بالليزر داخل العيادة','أطقم تبييض منزلية','تركيبة آمنة على المينا']}}
+];
+
+const serviceImages = {
+  cosmetic:'https://images.unsplash.com/photo-1595003500447-88c0dd1c1eda?q=80&w=800&auto=format&fit=crop',
+  implants:'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=800&auto=format&fit=crop',
+  ortho:'https://images.unsplash.com/photo-1598256989800-fe5f95da9787?q=80&w=800&auto=format&fit=crop',
+  pediatric:'https://images.unsplash.com/photo-1622902046580-2b47f47f5471?q=80&w=800&auto=format&fit=crop',
+  rootcanal:'https://images.unsplash.com/photo-1606811971618-4486d14f3f99?q=80&w=800&auto=format&fit=crop',
+  whitening:'https://images.unsplash.com/photo-1581056771107-24ca5f033842?q=80&w=800&auto=format&fit=crop'
+};
+
+const doctorsData = [
+  { key:'doc1', img:'https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=600&auto=format&fit=crop',
+    en:{name:'Dr. Lina Farouk', role:'Cosmetic Dentistry'}, ar:{name:'د. لينا فاروق', role:'طب الأسنان التجميلي'}},
+  { key:'doc2', img:'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=600&auto=format&fit=crop',
+    en:{name:'Dr. Omar Hassan', role:'Dental Implants'}, ar:{name:'د. عمر حسن', role:'زراعة الأسنان'}},
+  { key:'doc3', img:'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?q=80&w=600&auto=format&fit=crop',
+    en:{name:'Dr. Sara Adel', role:'Orthodontics'}, ar:{name:'د. سارة عادل', role:'تقويم الأسنان'}},
+  { key:'doc4', img:'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=600&auto=format&fit=crop',
+    en:{name:'Dr. Karim Yousef', role:'Pediatric Dentistry'}, ar:{name:'د. كريم يوسف', role:'طب أسنان الأطفال'}}
+];
+
+/* =====================================================================
+   RENDER SERVICES & DOCTORS
+===================================================================== */
+function renderServices(lang){
+  const grid = document.getElementById('servicesGrid');
+  grid.innerHTML = '';
+  servicesData.forEach((s, i) => {
+    const t = s[lang];
+    const card = document.createElement('div');
+    card.className = 'service-card p-6';
+    card.setAttribute('data-aos','fade-up');
+    card.setAttribute('data-aos-delay', (i%3)*100);
+    card.innerHTML = `
+      <img src="${serviceImages[s.img]}" alt="${t.title}" class="w-full h-40 object-cover rounded-2xl mb-5">
+      <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-600 flex items-center justify-center text-xl mb-4"><i class="fa-solid ${s.icon}"></i></div>
+      <h3 class="font-bold text-lg mb-2">${t.title}</h3>
+      <p class="text-navy/60 text-sm mb-4">${t.desc}</p>
+      <div class="flex items-center justify-between">
+        <span class="price-tag px-3 py-1">${lang==='ar' ? 'يبدأ من '+s.price : 'From '+s.price}</span>
+        <button class="text-teal-600 font-semibold text-sm flex items-center gap-1 svc-learn-more" data-key="${s.key}">
+          ${lang==='ar' ? 'اعرف المزيد' : 'Learn More'} <i class="fa-solid fa-chevron-${lang==='ar'?'left':'right'} text-xs"></i>
+        </button>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.querySelectorAll('.svc-learn-more').forEach(btn=>{
+    btn.addEventListener('click', ()=> openServiceModal(btn.getAttribute('data-key')));
+  });
+}
+
+function renderDoctors(lang){
+  const grid = document.getElementById('doctorsGrid');
+  grid.innerHTML = '';
+  doctorsData.forEach((d,i)=>{
+    const t = d[lang];
+    const card = document.createElement('div');
+    card.className = 'doctor-card shadow-lg';
+    card.setAttribute('data-aos','fade-up');
+    card.setAttribute('data-aos-delay', (i%4)*100);
+    card.innerHTML = `
+      <img src="${d.img}" alt="${t.name}" class="w-full h-72 object-cover">
+      <div class="overlay">
+        <h3 class="font-bold text-lg">${t.name}</h3>
+        <p class="text-white/70 text-sm mb-3">${t.role}</p>
+        <div class="flex items-center justify-between">
+          <div class="flex gap-2 text-sm">
+            <a href="#" class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center hover:bg-cyan-500 transition"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center hover:bg-cyan-500 transition"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+          <a href="#booking" class="text-xs font-semibold bg-white text-navy rounded-full px-3 py-1.5 hover:bg-teal-400 hover:text-white transition">${lang==='ar' ? 'احجز مع الطبيب' : 'Book with Doctor'}</a>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openServiceModal(key){
+  const lang = document.documentElement.getAttribute('data-lang');
+  const s = servicesData.find(x=>x.key===key);
+  if(!s) return;
+  const t = s[lang];
+  document.getElementById('serviceModalIcon').innerHTML = `<i class="fa-solid ${s.icon}"></i>`;
+  document.getElementById('serviceModalTitle').textContent = t.title;
+  document.getElementById('serviceModalPrice').textContent = (lang==='ar' ? 'يبدأ من ' : 'From ') + s.price;
+  document.getElementById('serviceModalDesc').textContent = t.desc;
+  const list = document.getElementById('serviceModalList');
+  list.innerHTML = '';
+  t.points.forEach(p=>{
+    const li = document.createElement('li');
+    li.className = 'flex items-center gap-3 text-sm text-navy/70';
+    li.innerHTML = `<i class="fa-solid fa-circle-check text-teal-600"></i> ${p}`;
+    list.appendChild(li);
+  });
+  openModal('serviceModal');
+}
+
+/* =====================================================================
+   LANGUAGE SWITCHING
+===================================================================== */
+function applyTranslations(lang){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(translations[lang][key] !== undefined){ el.innerHTML = translations[lang][key]; }
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(translations[lang][key] !== undefined){ el.setAttribute('placeholder', translations[lang][key]); }
+  });
+  document.querySelectorAll('.lang-switch span[data-lang-label]').forEach(el=>{
+    el.classList.toggle('active-lang', el.getAttribute('data-lang-label') === lang);
+  });
+}
+
+function setLanguage(lang){
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('data-lang', lang);
+  document.getElementById('langSwitch').setAttribute('data-current', lang);
+  applyTranslations(lang);
+  renderServices(lang);
+  renderDoctors(lang);
+  localStorage.setItem('tbt-lang', lang);
+}
+
+document.getElementById('langSwitch').addEventListener('click', ()=>{
+  const current = document.documentElement.getAttribute('data-lang');
+  setLanguage(current === 'en' ? 'ar' : 'en');
+});
+document.getElementById('langSwitch').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); document.getElementById('langSwitch').click(); }
+});
+
+/* =====================================================================
+   NAVBAR / MOBILE MENU
+===================================================================== */
+window.addEventListener('scroll', ()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+document.getElementById('menuBtn').addEventListener('click', ()=>{
+  document.getElementById('mobileMenu').classList.toggle('hidden');
+});
+document.querySelectorAll('#mobileMenu a').forEach(a=>{
+  a.addEventListener('click', ()=> document.getElementById('mobileMenu').classList.add('hidden'));
+});
+
+/* =====================================================================
+   PARTICLE FIELD (floating sparkles / orbs / icons)
+===================================================================== */
+function buildParticleField(containerId, count){
+  const field = document.getElementById(containerId);
+  if(!field) return;
+  const icons = ['fa-tooth','fa-star','fa-tooth','fa-plus'];
+  for(let i=0;i<count;i++){
+    const p = document.createElement('div');
+    const size = 4 + Math.random()*8;
+    p.className = 'particle drift';
+    p.style.width = size+'px';
+    p.style.height = size+'px';
+    p.style.top = Math.random()*100+'%';
+    p.style.left = Math.random()*100+'%';
+    p.style.animationDuration = (6+Math.random()*8)+'s';
+    p.style.animationDelay = (Math.random()*5)+'s';
+    field.appendChild(p);
+  }
+  for(let i=0;i<3;i++){
+    const o = document.createElement('div');
+    const size = 120 + Math.random()*140;
+    o.className = 'orb drift';
+    o.style.width = size+'px';
+    o.style.height = size+'px';
+    o.style.top = Math.random()*80+'%';
+    o.style.left = Math.random()*90+'%';
+    o.style.animationDuration = (10+Math.random()*6)+'s';
+    field.appendChild(o);
+  }
+  for(let i=0;i<5;i++){
+    const ic = document.createElement('i');
+    ic.className = 'fa-solid ' + icons[i % icons.length] + ' icon-float drift';
+    ic.style.top = Math.random()*100+'%';
+    ic.style.left = Math.random()*100+'%';
+    ic.style.animationDuration = (7+Math.random()*7)+'s';
+    ic.style.animationDelay = (Math.random()*4)+'s';
+    field.appendChild(ic);
+  }
+}
+buildParticleField('particleField', 22);
+buildParticleField('particleField2', 14);
+
+/* GSAP subtle parallax on hero image */
+if(window.gsap){
+  gsap.to('#home img', { y: 24, ease:'none', scrollTrigger: null });
+  window.addEventListener('scroll', ()=>{
+    const y = Math.min(window.scrollY, 400) * 0.06;
+    const heroImg = document.querySelector('#home .relative.rounded-\\[32px\\] img');
+    if(heroImg) heroImg.style.transform = `translateY(${y}px) scale(1.02)`;
+  });
+}
+
+/* =====================================================================
+   BEFORE / AFTER SLIDERS
+===================================================================== */
+document.querySelectorAll('.ba-wrap').forEach(wrap=>{
+  const after = wrap.querySelector('.ba-after');
+  const handle = wrap.querySelector('.ba-handle');
+  let dragging = false;
+
+  function setPos(clientX){
+    const rect = wrap.getBoundingClientRect();
+    let pct = ((clientX - rect.left) / rect.width) * 100;
+    pct = Math.max(4, Math.min(96, pct));
+    const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+    if(isRtl){
+      after.style.clipPath = `inset(0 ${pct}% 0 0)`;
+    } else {
+      after.style.clipPath = `inset(0 0 0 ${pct}%)`;
+    }
+    handle.style.left = pct + '%';
+  }
+
+  wrap.addEventListener('mousedown', e=>{ dragging = true; setPos(e.clientX); });
+  window.addEventListener('mouseup', ()=> dragging = false);
+  window.addEventListener('mousemove', e=>{ if(dragging) setPos(e.clientX); });
+
+  wrap.addEventListener('touchstart', e=>{ dragging = true; setPos(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchend', ()=> dragging = false);
+  window.addEventListener('touchmove', e=>{ if(dragging) setPos(e.touches[0].clientX); }, {passive:true});
+});
+
+/* =====================================================================
+   FAQ ACCORDION
+===================================================================== */
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click', ()=>{
+    const item = q.closest('.faq-item');
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+  });
+});
+
+/* =====================================================================
+   TESTIMONIAL CAROUSEL
+===================================================================== */
+(function(){
+  const track = document.getElementById('testTrack');
+  const slides = track.querySelectorAll('.test-slide');
+  const dotsWrap = document.getElementById('testDots');
+  let index = 0;
+
+  slides.forEach((_, i)=>{
+    const dot = document.createElement('button');
+    dot.className = 'w-2.5 h-2.5 rounded-full ' + (i===0 ? 'bg-teal-500' : 'bg-navy/15');
+    dot.addEventListener('click', ()=> goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  function goTo(i){
+    index = (i + slides.length) % slides.length;
+    const isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+    track.style.transform = `translateX(${isRtl ? index*100 : -index*100}%)`;
+    [...dotsWrap.children].forEach((d,j)=> d.className = 'w-2.5 h-2.5 rounded-full ' + (j===index ? 'bg-teal-500' : 'bg-navy/15'));
+  }
+  document.getElementById('testPrev').addEventListener('click', ()=> goTo(index-1));
+  document.getElementById('testNext').addEventListener('click', ()=> goTo(index+1));
+  setInterval(()=> goTo(index+1), 6000);
+})();
+
+/* =====================================================================
+   COST CALCULATOR
+===================================================================== */
+(function(){
+  let selectedPrice = 0, selectedMult = 1;
+  const step1 = document.getElementById('calcStep1');
+  const step2 = document.getElementById('calcStep2');
+  const result = document.getElementById('calcResult');
+  const priceOut = document.getElementById('calcPriceOut');
+
+  document.querySelectorAll('#calcOptions1 .calc-option').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      document.querySelectorAll('#calcOptions1 .calc-option').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+      selectedPrice = parseInt(opt.getAttribute('data-price'));
+      step2.classList.remove('hidden');
+    });
+  });
+
+  document.querySelectorAll('#calcOptions2 .calc-option').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      document.querySelectorAll('#calcOptions2 .calc-option').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+      selectedMult = parseFloat(opt.getAttribute('data-mult'));
+      const total = Math.round(selectedPrice * (1 + (selectedMult-1)*0.6));
+      priceOut.textContent = '$' + total;
+      result.classList.remove('hidden');
+      result.scrollIntoView({behavior:'smooth', block:'nearest'});
+    });
+  });
+})();
+
+/* =====================================================================
+   BOOKING FORM (multi-step + validation + confirmation modal)
+===================================================================== */
+(function(){
+  const form = document.getElementById('bookingForm');
+  const panels = form.querySelectorAll('.booking-step');
+  const dots = document.querySelectorAll('.step-dot');
+  const lines = document.querySelectorAll('.step-line');
+  let currentStep = 1;
+  let selectedTime = null;
+
+  function showStep(n){
+    currentStep = n;
+    panels.forEach(p => p.classList.toggle('hidden', parseInt(p.getAttribute('data-step-panel')) !== n));
+    dots.forEach(d=>{
+      const s = parseInt(d.getAttribute('data-step'));
+      d.classList.toggle('active', s===n);
+      d.classList.toggle('done', s<n);
+    });
+    lines.forEach(l=>{
+      const s = parseInt(l.getAttribute('data-line'));
+      l.classList.toggle('done', s < n);
+    });
+  }
+
+  function showError(id, show){
+    const el = document.querySelector(`[data-error="${id}"]`);
+    const field = document.getElementById(id) || document.querySelector(`[data-time]`);
+    if(el) el.classList.toggle('hidden', !show);
+    const inputEl = document.getElementById(id);
+    if(inputEl) inputEl.classList.toggle('invalid', show);
+  }
+
+  function validateStep1(){
+    let ok = true;
+    const name = document.getElementById('bkName').value.trim();
+    const phone = document.getElementById('bkPhone').value.trim();
+    const email = document.getElementById('bkEmail').value.trim();
+    showError('bkName', name.length < 2); if(name.length<2) ok=false;
+    const phoneOk = /^[0-9+\s-]{8,15}$/.test(phone);
+    showError('bkPhone', !phoneOk); if(!phoneOk) ok=false;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    showError('bkEmail', !emailOk); if(!emailOk) ok=false;
+    return ok;
+  }
+
+  function validateStep2(){
+    let ok = true;
+    const service = document.getElementById('bkService').value;
+    showError('bkService', !service); if(!service) ok=false;
+    return ok;
+  }
+
+  function validateStep3(){
+    let ok = true;
+    const date = document.getElementById('bkDate').value;
+    showError('bkDate', !date); if(!date) ok=false;
+    const timeErr = document.querySelector('[data-error="bkTime"]');
+    if(!selectedTime){ timeErr.classList.remove('hidden'); ok=false; } else { timeErr.classList.add('hidden'); }
+    return ok;
+  }
+
+  form.querySelectorAll('[data-next]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const target = parseInt(btn.getAttribute('data-next'));
+      if(currentStep === 1 && !validateStep1()) return;
+      if(currentStep === 2 && !validateStep2()) return;
+      showStep(target);
+    });
+  });
+  form.querySelectorAll('[data-prev]').forEach(btn=>{
+    btn.addEventListener('click', ()=> showStep(parseInt(btn.getAttribute('data-prev'))));
+  });
+
+  document.querySelectorAll('.time-slot:not(.taken)').forEach(slot=>{
+    slot.addEventListener('click', ()=>{
+      document.querySelectorAll('.time-slot').forEach(s=>s.classList.remove('selected'));
+      slot.classList.add('selected');
+      selectedTime = slot.getAttribute('data-time');
+    });
+  });
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    if(!validateStep3()) return;
+
+    const lang = document.documentElement.getAttribute('data-lang');
+    const name = document.getElementById('bkName').value.trim();
+    const serviceSelect = document.getElementById('bkService');
+    const serviceLabel = serviceSelect.options[serviceSelect.selectedIndex].textContent;
+    const date = document.getElementById('bkDate').value;
+    const ref = 'BT-' + Math.floor(100000 + Math.random()*900000);
+
+    document.getElementById('confirmRef').textContent = ref;
+    document.getElementById('confirmName').textContent = name;
+    document.getElementById('confirmService').textContent = serviceLabel;
+    document.getElementById('confirmDatetime').textContent = date + ' — ' + selectedTime;
+
+    openModal('confirmModal');
+    form.reset();
+    selectedTime = null;
+    document.querySelectorAll('.time-slot').forEach(s=>s.classList.remove('selected'));
+    showStep(1);
+  });
+
+  showStep(1);
+})();
+
+/* =====================================================================
+   NEWSLETTER
+===================================================================== */
+document.getElementById('newsletterForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  document.getElementById('newsletterMsg').classList.remove('hidden');
+  e.target.reset();
+});
+
+/* =====================================================================
+   MODAL HELPERS
+===================================================================== */
+function openModal(id){ document.getElementById(id).classList.add('show'); document.body.style.overflow = 'hidden'; }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); document.body.style.overflow = ''; }
+document.querySelectorAll('.modal-backdrop').forEach(m=>{
+  m.addEventListener('click', (e)=>{ if(e.target === m) closeModal(m.id); });
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){ document.querySelectorAll('.modal-backdrop.show').forEach(m=>closeModal(m.id)); }
+});
+
+/* =====================================================================
+   INIT
+===================================================================== */
+AOS.init({ duration: 700, once: true, offset: 60 });
+const savedLang = localStorage.getItem('tbt-lang') || 'en';
+setLanguage(savedLang);
+document.querySelectorAll('#bkDate').forEach(d=> d.min = new Date().toISOString().split('T')[0]);
+</script>
+</body>
+</html>
